@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import us.hgmtrebing.Effectual.cli.InteractiveCommandLine;
 
 @SpringBootApplication
 public class EffectualApplication implements CommandLineRunner {
@@ -18,6 +19,7 @@ public class EffectualApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		log.info("Beginning Command Line Runner ...");
-
+		InteractiveCommandLine cli = new InteractiveCommandLine();
+		cli.start();
 	}
 }
