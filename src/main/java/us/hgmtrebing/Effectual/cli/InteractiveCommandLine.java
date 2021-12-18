@@ -27,6 +27,36 @@ public class InteractiveCommandLine {
 
     public void processInput(String input) {
         switch (input) {
+            case "mk":
+            case "make":
+                printMessage("Unimplemented but valid 'make' Command Received.");
+                break;
+
+            case "ls":
+            case "list":
+                printMessage("Unimplemented but valid 'list' Command Received.");
+                break;
+
+            case "rm":
+            case "remove":
+                printMessage("Unimplemented but valid 'remove' Command Received.");
+                break;
+
+            case "vw":
+            case "view":
+                printMessage("Unimplemented but valid 'view' Command Received.");
+                break;
+
+            case "md":
+            case "modify":
+                printMessage("Unimplemented but valid 'modify' Command Received.");
+                break;
+
+            case "h":
+            case "help":
+                printMessage("Unimplemented but valid 'help' Command Received.");
+                break;
+
             case "exit":
                 this.exit();
                 break;

@@ -1,13 +1,16 @@
 package us.hgmtrebing.Effectual.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-public interface ITask {
-    public abstract long getId();
-    public abstract String getTitle();
-    public abstract String getDescription();
-    public abstract IUser getAuthor();
-    public abstract IUser getOwner();
-    public abstract LocalDateTime getCreateDate();
-    public abstract LocalDateTime getLastModifiedDate();
+public interface ITask extends IElement{
+    public abstract IProject getProject();
+    public abstract void setProject(IProject project);
+
+    public abstract ITask getParent();
+    public abstract void setParent(ITask parent);
+
+    public abstract List<ITask> getChildren();
+    public abstract void addChild(ITask child);
+    public abstract void removeChild(ITask child);
 }
