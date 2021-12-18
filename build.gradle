@@ -19,6 +19,9 @@ dependencies {
 	implementation 'commons-cli:commons-cli:1.5.0'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'mysql:mysql-connector-java'
+	implementation 'org.hibernate:hibernate-core'
 }
 
 test {
