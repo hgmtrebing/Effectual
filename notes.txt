@@ -1,0 +1,4 @@
+
+*** Accessing H2 Console ***
+    - Add 'spring.h2.console.enabled=true' to 'application.properties'
+    - In a Web Browser, navigate to 'http://localhost:8080/h2-console'
