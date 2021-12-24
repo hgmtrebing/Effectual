@@ -9,6 +9,28 @@ update this later, since I may also want to work with H2 and/or PostGRES
 <hibernate-configuration>
     <session-factory>
 
+        <property name = "hibernate.dialect">
+            org.hibernate.dialect.H2Dialect
+        </property>
+
+        <property name = "hibernate.connection.driver_class">
+           org.h2.Driver
+        </property>
+
+        <property name = "hibernate.connection.url">
+            jdbc:h2:mem:testdb
+        </property>
+
+        <property name = "hibernate.connection.username">
+            sa
+        </property>
+
+        <property name = "hibernate.connection.password">
+           password
+        </property>
+
+        <mapping class="us.hgmtrebing.Effectual.impl.UserImpl" />
+
         <!--
         <property name = "hibernate.dialect">
             org.hibernate.dialect.MySQLDialect

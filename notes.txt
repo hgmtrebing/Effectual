@@ -2,3 +2,8 @@
 *** Accessing H2 Console ***
     - Add 'spring.h2.console.enabled=true' to 'application.properties'
     - In a Web Browser, navigate to 'http://localhost:8080/h2-console'
+
+- In Hibernate, the persistence context is org.Hibernate.Session
+- In JPA, the persistence context is javax.persistence.EntityManager
+- Session is a subclass of EntityManager
+- So when working with Hibernate, using Session over EntityManager is usually a little nicer

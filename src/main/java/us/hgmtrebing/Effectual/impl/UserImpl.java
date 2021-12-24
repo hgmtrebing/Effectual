@@ -2,10 +2,7 @@ package us.hgmtrebing.Effectual.impl;
 
 import us.hgmtrebing.Effectual.model.IUser;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,15 +11,34 @@ public class UserImpl implements IUser {
 
   @Id
   @GeneratedValue
+  @Column (name = "user_id")
   private long id;
 
+  @Column (name = "user_first_name")
   private String firstName;
+
+  @Column (name = "user_last_name")
   private String lastName;
+
+  @Column (name = "user_name")
   private String username;
+
+  @Column (name = "user_email_address")
   private String emailAddress;
+
+
+  /*
   private LocalDateTime createDate;
   private LocalDateTime lastModifiedDate;
   private LocalDateTime lastLoginDate;
+   */
+
+  public UserImpl() {
+    this.firstName = "";
+    this.lastName = "";
+    this.username = "";
+    this.emailAddress = "";
+  }
 
   @Override
   public long getId() {
@@ -54,6 +70,7 @@ public class UserImpl implements IUser {
     return this.emailAddress;
   }
 
+  /*
   @Override
   public LocalDateTime getCreateDate() {
     return this.createDate;
@@ -68,6 +85,7 @@ public class UserImpl implements IUser {
   public LocalDateTime getLastLoginTime() {
     return this.lastLoginDate;
   }
+   */
 
   @Override
   public void setFirstName(String firstName) {
@@ -89,6 +107,7 @@ public class UserImpl implements IUser {
     this.emailAddress = emailAddress;
   }
 
+  /*
   @Override
   public void setCreateDate(LocalDateTime createDate) {
     this.createDate = createDate;
@@ -103,4 +122,5 @@ public class UserImpl implements IUser {
   public void setLastLoginTime(LocalDateTime lastLoginTime) {
     this.lastLoginDate = lastLoginTime;
   }
+   */
 }
