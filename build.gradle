@@ -17,12 +17,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'commons-cli:commons-cli:1.5.0'
-	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
 	implementation 'mysql:mysql-connector-java'
 	implementation 'org.hibernate:hibernate-core'
+
+	runtimeOnly 'com.h2database:h2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
+
+task npmInstall(type: Exec) {
+	commandLine "npm.cmd", "install"
+}
+
+task webpackWatch(type: Exec) {
+	commandLine "npm.cmd", "run", "watch"
 }
 
 test {

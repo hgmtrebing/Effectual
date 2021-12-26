@@ -24,7 +24,7 @@ public class EffectualApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		testPersistUser();
+		// testPersistUser();
 	}
 
 	public void initializeCommandLine() {
