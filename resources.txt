@@ -1,6 +1,7 @@
 H2 Database                         - https://www.h2database.com/html/main.html
 Using H2 with Spring Boot           - https://www.baeldung.com/spring-boot-h2-database
 Using Hibernate with Spring Boot    - https://www.baeldung.com/spring-boot-hibernate
+Hibernate and Inheritance           - https://www.baeldung.com/hibernate-inheritance
 Persisting Entities                 - https://www.baeldung.com/hibernate-save-persist-update-merge-saveorupdate
 React and Spring                    - https://www.baeldung.com/spring-boot-react-crud
 React and Spring                    - https://spring.io/guides/tutorials/react-and-spring-data-rest/

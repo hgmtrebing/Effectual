@@ -29,7 +29,8 @@ update this later, since I may also want to work with H2 and/or PostGRES
            password
         </property>
 
-        <mapping class="us.hgmtrebing.Effectual.impl.UserImpl" />
+        <mapping class="us.hgmtrebing.Effectual.impl.User" />
+        <mapping class="us.hgmtrebing.Effectual.impl.Project"/>
 
         <!--
         <property name = "hibernate.dialect">

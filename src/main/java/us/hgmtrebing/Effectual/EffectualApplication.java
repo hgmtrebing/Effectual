@@ -11,7 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import us.hgmtrebing.Effectual.cli.InteractiveCommandLine;
 import us.hgmtrebing.Effectual.database.UserService;
-import us.hgmtrebing.Effectual.impl.UserImpl;
+import us.hgmtrebing.Effectual.impl.Project;
+import us.hgmtrebing.Effectual.impl.User;
 
 @SpringBootApplication
 public class EffectualApplication implements CommandLineRunner {
@@ -35,11 +36,16 @@ public class EffectualApplication implements CommandLineRunner {
 	}
 
 	public void testPersistUser() {
-		UserImpl user = new UserImpl();
+		User user = new User();
 		user.setFirstName("Harry");
 		user.setLastName("Trebing");
 		user.setEmailAddress("hgmtrebing@outlook.com");
 		user.setUsername("hgmtrebing");
+
+		Project project = new Project();
+		project.setAuthor(user);
+		project.setName("Test Project Name");
+		project.setDescription("Test Project Description");
 
 		Configuration config = new Configuration();
 		config.configure();
@@ -50,6 +56,10 @@ public class EffectualApplication implements CommandLineRunner {
 			session.persist(user);
 			// t.commit();
 			session.flush();
+
+			session.persist(project);
+			session.flush();
+
 			session.close();
 		} catch (Exception e) {
 			log.warn("", e);
