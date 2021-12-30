@@ -4,11 +4,12 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table (name = "tbl_user_impl") // Hibernate automatically generates a Table Name - this can override the default name.
+@Table (name = "tbl_users") // Hibernate automatically generates a Table Name - this can override the default name.
 public class User {
 
   @Id
-  @GeneratedValue
+  @TableGenerator(name = "user_generator")
+  @GeneratedValue(strategy = GenerationType.TABLE, generator = "user_generator")
   @Column (name = "user_id")
   private long id;
 

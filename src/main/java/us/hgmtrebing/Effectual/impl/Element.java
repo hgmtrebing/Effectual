@@ -2,12 +2,13 @@ package us.hgmtrebing.Effectual.impl;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 public class Element {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.TABLE)
   private long id;
   private String name;
   private String description;
@@ -21,6 +22,20 @@ public class Element {
 
   @Column (name="last_modified_time")
   private Timestamp lastModifiedTime;
+
+  public Element() {
+    this("", "", null);
+  }
+
+  public Element(String name, String description, User author) {
+    this.name = name;
+    this.description = description;
+    this.author = author;
+
+    Timestamp now = new Timestamp(System.currentTimeMillis());
+    this.createDate = now;
+    this.lastModifiedTime = now;
+  }
 
   public long getId() {
     return id;

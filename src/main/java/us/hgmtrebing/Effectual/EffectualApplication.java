@@ -6,10 +6,12 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import us.hgmtrebing.Effectual.cli.InteractiveCommandLine;
+import us.hgmtrebing.Effectual.database.HibernateInterface;
 import us.hgmtrebing.Effectual.database.UserService;
 import us.hgmtrebing.Effectual.impl.Project;
 import us.hgmtrebing.Effectual.impl.User;
@@ -17,6 +19,9 @@ import us.hgmtrebing.Effectual.impl.User;
 @SpringBootApplication
 public class EffectualApplication implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(EffectualApplication.class);
+
+	@Autowired
+	private HibernateInterface hibernateInterface;
 
 	public static void main(String[] args) {
 		log.info("Initializing Effectual Application.");
@@ -42,27 +47,25 @@ public class EffectualApplication implements CommandLineRunner {
 		user.setEmailAddress("hgmtrebing@outlook.com");
 		user.setUsername("hgmtrebing");
 
+		User user1 = new User();
+		user1.setFirstName("Anjanette");
+		user1.setLastName("Trebing");
+		user1.setEmailAddress("aktrebing@outlook.com");
+		user1.setUsername("aktrebing");
+
 		Project project = new Project();
 		project.setAuthor(user);
 		project.setName("Test Project Name");
 		project.setDescription("Test Project Description");
 
-		Configuration config = new Configuration();
-		config.configure();
-		SessionFactory factory = config.buildSessionFactory();
-		Session session = factory.openSession();
-		try {
-			Transaction t = session.beginTransaction();
-			session.persist(user);
-			// t.commit();
-			session.flush();
+		Project project1 = new Project();
+		project1.setAuthor(user);
+		project1.setName("Harry's Project");
+		project1.setDescription("Personal Project");
 
-			session.persist(project);
-			session.flush();
-
-			session.close();
-		} catch (Exception e) {
-			log.warn("", e);
-		}
+		this.hibernateInterface.persistObject(user);
+		this.hibernateInterface.persistObject(project);
+		this.hibernateInterface.persistObject(user1);
+		this.hibernateInterface.persistObject(project1);
 	}
 }
