@@ -3,6 +3,7 @@ package us.hgmtrebing.Effectual.impl;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @MappedSuperclass
 public class Element {
@@ -83,5 +84,30 @@ public class Element {
 
   public void setLastModifiedTime(Timestamp lastModifiedTime) {
     this.lastModifiedTime = lastModifiedTime;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Element element = (Element) o;
+    return id == element.id && name.equals(element.name) && description.equals(element.description) && author.equals(element.author) && createDate.equals(element.createDate) && lastModifiedTime.equals(element.lastModifiedTime);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, description, author, createDate, lastModifiedTime);
+  }
+
+  @Override
+  public String toString() {
+    return "Element{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", author=" + author +
+            ", createDate=" + createDate +
+            ", lastModifiedTime=" + lastModifiedTime +
+            '}';
   }
 }
