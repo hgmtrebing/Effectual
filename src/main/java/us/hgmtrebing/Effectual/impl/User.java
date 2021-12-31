@@ -8,8 +8,7 @@ import java.sql.Timestamp;
 public class User {
 
   @Id
-  @TableGenerator(name = "user_generator")
-  @GeneratedValue(strategy = GenerationType.TABLE, generator = "user_generator")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column (name = "user_id")
   private long id;
 

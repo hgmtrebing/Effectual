@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Element {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.TABLE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String name;
   private String description;

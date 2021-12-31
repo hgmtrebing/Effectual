@@ -6,3 +6,4 @@ Persisting Entities                 - https://www.baeldung.com/hibernate-save-pe
 React and Spring                    - https://www.baeldung.com/spring-boot-react-crud
 React and Spring                    - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 REST and Spring                     - https://spring.io/guides/tutorials/rest/
+JPA and Generated Identifiers       - https://www.baeldung.com/hibernate-identifiers
