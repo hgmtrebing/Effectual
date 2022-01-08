@@ -2,17 +2,32 @@ package us.hgmtrebing.Effectual.impl;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
-@MappedSuperclass
-public class Element {
+@Entity
+@Table(name="todo_elements")
+public class TodoElement {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Column(name="id")
   private long id;
+
+  @Column(name="name")
   private String name;
+
+  @Column(name="description")
   private String description;
+
+  @JoinColumn
+  @ManyToOne
+  private TodoElementType elementType;
+
+  @JoinColumn
+  @ManyToOne
+  private TodoElementStatus elementStatus;
 
   @JoinColumn
   @ManyToOne
@@ -24,11 +39,7 @@ public class Element {
   @Column (name="last_modified_time")
   private Timestamp lastModifiedTime;
 
-  public Element() {
-    this("", "", null);
-  }
-
-  public Element(String name, String description, User author) {
+  public TodoElement(String name, String description, User author) {
     this.name = name;
     this.description = description;
     this.author = author;
@@ -86,12 +97,28 @@ public class Element {
     this.lastModifiedTime = lastModifiedTime;
   }
 
+  public TodoElementType getElementType() {
+    return elementType;
+  }
+
+  public void setElementType(TodoElementType elementType) {
+    this.elementType = elementType;
+  }
+
+  public TodoElementStatus getElementStatus() {
+    return elementStatus;
+  }
+
+  public void setElementStatus(TodoElementStatus elementStatus) {
+    this.elementStatus = elementStatus;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Element element = (Element) o;
-    return id == element.id && name.equals(element.name) && description.equals(element.description) && author.equals(element.author) && createDate.equals(element.createDate) && lastModifiedTime.equals(element.lastModifiedTime);
+    TodoElement todoElement = (TodoElement) o;
+    return id == todoElement.id && name.equals(todoElement.name) && description.equals(todoElement.description) && author.equals(todoElement.author) && createDate.equals(todoElement.createDate) && lastModifiedTime.equals(todoElement.lastModifiedTime);
   }
 
   @Override

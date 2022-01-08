@@ -30,7 +30,10 @@ update this later, since I may also want to work with H2 and/or PostGRES
         </property>
 
         <mapping class="us.hgmtrebing.Effectual.impl.User" />
-        <mapping class="us.hgmtrebing.Effectual.impl.Project"/>
+        <mapping class="us.hgmtrebing.Effectual.impl.TodoElementTree"/>
+        <mapping class="us.hgmtrebing.Effectual.impl.TodoElement"/>
+        <mapping class="us.hgmtrebing.Effectual.impl.TodoElementStatus"/>
+        <mapping class="us.hgmtrebing.Effectual.impl.TodoElementType"/>
 
         <!--
         <property name = "hibernate.dialect">

@@ -5,16 +5,35 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import us.hgmtrebing.Effectual.impl.Project;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import us.hgmtrebing.Effectual.impl.TodoElementTree;
+import us.hgmtrebing.Effectual.impl.User;
 
-@Component
-public class HibernateInterface {
+import java.util.List;
 
-    private static final Logger log = LoggerFactory.getLogger(HibernateInterface.class);
+@Service
+public class DatabaseService {
+
+    private static final Logger log = LoggerFactory.getLogger(DatabaseService.class);
     private final Configuration config;
 
-    public HibernateInterface() {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TodoElementRepository todoElementRepository;
+
+    @Autowired
+    private TodoElementStatusRepository todoElementStatusRepository;
+
+    @Autowired
+    TodoElementTypeRepository todoElementTypeRepository;
+
+    @Autowired
+    TodoElementTreeRepository todoElementTreeRepository;
+
+    public DatabaseService() {
 
         this.config = new Configuration();
         config.configure();
@@ -23,7 +42,6 @@ public class HibernateInterface {
     }
 
     public void initializeEnvironment() {
-        persistObject(Project.ROOT_PROJECT);
     }
 
     public Session createSession() {
@@ -46,4 +64,14 @@ public class HibernateInterface {
             return false;
         }
     }
+
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public List<TodoElementTree> getAllElementTrees() {
+        return this.todoElementTreeRepository.findAll();
+    }
+
+
 }
