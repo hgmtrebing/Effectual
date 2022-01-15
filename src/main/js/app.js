@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
+import DevAdminAllUsers from "./dev-admin-all-users";
 
 /* Test */
 class App extends React.Component {
@@ -16,7 +17,9 @@ class App extends React.Component {
 
     render() {
         return (
-            <p>test</p>
+            <div>
+                <DevAdminAllUsers/>
+            </div>
         )
     }
 }

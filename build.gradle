@@ -29,12 +29,20 @@ dependencies {
 }
 
 task npmInstall(type: Exec) {
+	println "Reinstalling Frontend dependencies via NPM."
 	commandLine "npm.cmd", "install"
 }
 
 task webpackWatch(type: Exec) {
 	commandLine "npm.cmd", "run", "watch"
 }
+
+task webpackBuild(type: Exec) {
+	println "Rebuilding Frontend via Webpack"
+	commandLine "npm.cmd", "run", "build"
+}
+
+build.dependsOn webpackBuild
 
 test {
 	useJUnitPlatform()
