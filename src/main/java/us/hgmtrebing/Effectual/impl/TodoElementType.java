@@ -18,6 +18,10 @@ public class TodoElementType {
     @Column(name="description")
     private String description;
 
+    @JoinColumn
+    @ManyToOne
+    private TodoElementTree tree;
+
     public TodoElementType() { }
 
     public TodoElementType(String name, String description) {
@@ -49,16 +53,24 @@ public class TodoElementType {
         this.description = description;
     }
 
+    public TodoElementTree getTree() {
+        return tree;
+    }
+
+    public void setTree(TodoElementTree tree) {
+        this.tree = tree;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TodoElementType that = (TodoElementType) o;
-        return id == that.id && name.equals(that.name) && description.equals(that.description);
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(tree, that.tree);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id, name, description, tree);
     }
 }

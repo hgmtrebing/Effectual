@@ -23,10 +23,12 @@ public class TodoElement {
 
   @JoinColumn
   @ManyToOne
+  @Transient
   private TodoElementType elementType;
 
   @JoinColumn
   @ManyToOne
+  @Transient
   private TodoElementStatus elementStatus;
 
   @JoinColumn

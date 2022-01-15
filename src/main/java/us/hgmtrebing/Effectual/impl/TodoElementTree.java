@@ -1,25 +1,27 @@
 package us.hgmtrebing.Effectual.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import us.hgmtrebing.Effectual.database.DatabaseService;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name="todo_element_trees")
 public class TodoElementTree {
-
-    @Autowired
-    @Transient
-    private DatabaseService databaseService;
+    private static final Logger log = LoggerFactory.getLogger(TodoElementTree.class);
 
     @Id
     @GeneratedValue
     @Column(name="id")
     private long id;
 
-    @JoinColumn
-    @OneToOne
+    @JoinColumn(name = "root_element_id")
+    @OneToOne(cascade = {CascadeType.ALL})
     private TodoElement rootElement;
 
     @JoinColumn
@@ -32,27 +34,33 @@ public class TodoElementTree {
     @Column(name="description")
     private String description;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "statuses",
+            joinColumns = {@JoinColumn(name = "tree_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "status_id", referencedColumnName = "id")})
+    @MapKey(name = "name")
+    private Map<String, TodoElementStatus> statuses;
+
     protected TodoElementTree() { }
 
 
-    public static TodoElementTree createTodoElementTree(String name, String description, User user) {
-        if (name == null || description == null || user == null) {
-            // TODO - throw exception and/or log message
-            return null;
+
+    public void initializeDefaultStatuses() {
+        this.addNewStatusIfNotExists("N/A", "");
+        this.addNewStatusIfNotExists("New", "");
+        this.addNewStatusIfNotExists("In-Progress", "");
+        this.addNewStatusIfNotExists("On-Hold", "");
+        this.addNewStatusIfNotExists("Completed", "");
+    }
+
+    public TodoElementStatus addNewStatusIfNotExists(String name, String description) {
+        if (this.statuses.containsKey(name)) {
+            return this.statuses.get(name);
         }
 
-        TodoElementTree tree = new TodoElementTree();
-        tree.setOwner(user);
-        tree.setName(name);
-        tree.setDescription(description);
-        tree.setRootElement(new TodoElement(name, description, user));
-
-        if (tree.databaseService.persistObject(tree)) {
-            return tree;
-        } else {
-            // TODO - throw exception and/or log message
-            return null;
-        }
+        TodoElementStatus status = new TodoElementStatus(name, description, this);
+        this.statuses.put(name, status);
+        return status;
     }
 
     public long getId() {
@@ -93,5 +101,13 @@ public class TodoElementTree {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Map<String, TodoElementStatus> getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(Map<String, TodoElementStatus> statuses) {
+        this.statuses = statuses;
     }
 }

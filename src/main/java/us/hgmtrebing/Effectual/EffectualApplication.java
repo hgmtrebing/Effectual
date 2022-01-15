@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import us.hgmtrebing.Effectual.database.DatabaseService;
+import us.hgmtrebing.Effectual.impl.TodoElementTree;
+import us.hgmtrebing.Effectual.impl.TodoElementTreeFactory;
 import us.hgmtrebing.Effectual.impl.User;
 
 @SpringBootApplication
@@ -15,6 +17,9 @@ public class EffectualApplication implements CommandLineRunner {
 
 	@Autowired
 	private DatabaseService databaseService;
+
+	@Autowired
+	private TodoElementTreeFactory treeFactory;
 
 	public static void main(String[] args) {
 		log.info("Initializing Effectual Application.");
@@ -41,5 +46,8 @@ public class EffectualApplication implements CommandLineRunner {
 
 		this.databaseService.persistObject(user);
 		this.databaseService.persistObject(user1);
+
+		TodoElementTree tree = treeFactory.createTodoElementTree("Harry's Tasks", "Womp Womp", user);
+		TodoElementTree tree2 = treeFactory.createTodoElementTree("Harry's Work", "I hate dis shit", user);
 	}
 }
