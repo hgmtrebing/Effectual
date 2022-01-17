@@ -2,6 +2,7 @@ package us.hgmtrebing.Effectual.impl;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,15 +22,21 @@ public class TodoElement {
   @Column(name="description")
   private String description;
 
-  @JoinColumn
+  @JoinColumn (name="type")
   @ManyToOne
-  @Transient
   private TodoElementType elementType;
 
-  @JoinColumn
+  @JoinColumn (name="status")
   @ManyToOne
-  @Transient
   private TodoElementStatus elementStatus;
+
+  @JoinColumn(name="parent")
+  @ManyToOne
+  private TodoElement parent;
+
+  @JoinColumn(name="parent")
+  @OneToMany
+  private Set<TodoElement> children;
 
   @JoinColumn
   @ManyToOne
@@ -41,10 +48,14 @@ public class TodoElement {
   @Column (name="last_modified_time")
   private Timestamp lastModifiedTime;
 
-  public TodoElement(String name, String description, User author) {
+  public TodoElement() { }
+
+  public TodoElement(String name, String description, User author, TodoElement parent) {
     this.name = name;
     this.description = description;
     this.author = author;
+    this.parent = parent;
+    this.children = new HashSet<>();
 
     Timestamp now = new Timestamp(System.currentTimeMillis());
     this.createDate = now;
@@ -113,6 +124,22 @@ public class TodoElement {
 
   public void setElementStatus(TodoElementStatus elementStatus) {
     this.elementStatus = elementStatus;
+  }
+
+  public TodoElement getParent() {
+    return parent;
+  }
+
+  public void setParent(TodoElement parent) {
+    this.parent = parent;
+  }
+
+  public Set<TodoElement> getChildren() {
+    return children;
+  }
+
+  public void setChildren(Set<TodoElement> children) {
+    this.children = children;
   }
 
   @Override

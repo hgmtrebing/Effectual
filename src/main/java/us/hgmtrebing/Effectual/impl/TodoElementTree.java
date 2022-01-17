@@ -7,6 +7,7 @@ import us.hgmtrebing.Effectual.database.DatabaseService;
 
 import javax.persistence.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class TodoElementTree {
     private static final Logger log = LoggerFactory.getLogger(TodoElementTree.class);
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private long id;
 
@@ -35,15 +36,16 @@ public class TodoElementTree {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "statuses",
-            joinColumns = {@JoinColumn(name = "tree_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "status_id", referencedColumnName = "id")})
+    @JoinColumn
     @MapKey(name = "name")
     private Map<String, TodoElementStatus> statuses;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn
+    @MapKey(name = "name")
+    private Map<String, TodoElementType> types;
+
     protected TodoElementTree() { }
-
-
 
     public void initializeDefaultStatuses() {
         this.addNewStatusIfNotExists("N/A", "");
@@ -61,6 +63,88 @@ public class TodoElementTree {
         TodoElementStatus status = new TodoElementStatus(name, description, this);
         this.statuses.put(name, status);
         return status;
+    }
+
+    public void initializeDefaultTypes() {
+        this.addNewTypeIfNotExists("Simple", "");
+        this.addNewTypeIfNotExists("Task", "");
+        this.addNewTypeIfNotExists("Project", "");
+        this.addNewTypeIfNotExists("Event", "");
+        this.addNewTypeIfNotExists("Meeting", "");
+        this.addNewTypeIfNotExists("Appointment", "");
+        this.addNewTypeIfNotExists("Goal", "");
+        this.addNewTypeIfNotExists("Theater", "");
+    }
+
+    public void initializeRootElement() {
+        if (this.rootElement == null) {
+            TodoElement element = new TodoElement(this.getName(), this.getDescription(), this.getOwner(), null);
+            this.setRootElement(element);
+            TodoElementType type = this.addNewTypeIfNotExists("N/A", "Not Applicable");
+            TodoElementStatus status = this.addNewStatusIfNotExists("Simple", "Simple Element");
+            this.getRootElement().setElementType(type);
+            this.getRootElement().setElementStatus(status);
+        }
+    }
+
+    public TodoElementType addNewTypeIfNotExists(String name, String description) {
+        if (this.types.containsKey(name)) {
+            return this.types.get(name);
+        }
+
+        TodoElementType type = new TodoElementType(name, description, this);
+        this.types.put(name, type);
+        return type;
+    }
+
+    public void setParentChildRelationship(TodoElement parent, TodoElement child) throws InvalidParentChildRelationshipException{
+
+        if (isAncestor(parent, child)) {
+            throw new InvalidParentChildRelationshipException();
+        }
+
+        if (child.getParent() != null) {
+            TodoElement oldParent = child.getParent();
+            oldParent.getChildren().remove(child);
+        }
+
+        parent.getChildren().add(child);
+        child.setParent(parent);
+    }
+
+    /**
+     * Determines whether a given TodoElement has a valid ancestory that traces back to this tree's
+     * Root Element, with no cycles.
+     * @param element the element whose ancestory to inspect.
+     * @return true if the ancestory is valid; false otherwise
+     */
+    public boolean hasValidAncestory(TodoElement element) {
+        Set<TodoElement> seenElements = new HashSet<>();
+        TodoElement currentElement = element;
+        while (true) {
+
+            if (currentElement == null) {
+                return false;
+            }
+
+            if (seenElements.contains(currentElement)) {
+                return false;
+            }
+
+            if (currentElement.equals(this.getRootElement())) {
+                return true;
+            }
+
+            seenElements.add(currentElement);
+            currentElement = currentElement.getParent();
+        }
+    }
+
+    public boolean isAncestor(TodoElement element, TodoElement possibleAncestor) {
+    }
+
+    public boolean isDescendant(TodoElement element, TodoElement possibleDescendant) {
+
     }
 
     public long getId() {
@@ -109,5 +193,13 @@ public class TodoElementTree {
 
     public void setStatuses(Map<String, TodoElementStatus> statuses) {
         this.statuses = statuses;
+    }
+
+    public Map<String, TodoElementType> getTypes() {
+        return types;
+    }
+
+    public void setTypes(Map<String, TodoElementType> types) {
+        this.types = types;
     }
 }

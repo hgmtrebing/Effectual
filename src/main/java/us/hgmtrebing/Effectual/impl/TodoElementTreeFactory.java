@@ -22,10 +22,11 @@ public class TodoElementTreeFactory {
         tree.setOwner(user);
         tree.setName(name);
         tree.setDescription(description);
-        tree.setRootElement(new TodoElement(name, description, user));
         tree.setStatuses(new HashMap<>());
-
+        tree.setTypes(new HashMap<>());
         tree.initializeDefaultStatuses();
+        tree.initializeDefaultTypes();
+        tree.initializeRootElement();
 
         this.databaseService.persistObject(tree);
         return tree;

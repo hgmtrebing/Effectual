@@ -8,7 +8,7 @@ import java.util.Objects;
 public class TodoElementType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private long id;
 
@@ -24,9 +24,10 @@ public class TodoElementType {
 
     public TodoElementType() { }
 
-    public TodoElementType(String name, String description) {
+    public TodoElementType(String name, String description, TodoElementTree tree) {
         this.name = name;
         this.description = description;
+        this.tree = tree;
     }
 
     public long getId() {
