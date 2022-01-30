@@ -141,10 +141,30 @@ public class TodoElementTree {
     }
 
     public boolean isAncestor(TodoElement element, TodoElement possibleAncestor) {
+        Set<TodoElement> seenElements = new HashSet<>();
+        TodoElement currentElement = element;
+
+        while (true) {
+
+            if (currentElement.equals(possibleAncestor)) {
+                return true;
+            }
+
+            if (seenElements.contains(currentElement)) {
+                return false;
+            }
+
+            if (currentElement.equals(this.getRootElement())) {
+                return false;
+            }
+
+            seenElements.add(currentElement);
+            currentElement = element.getParent();
+        }
     }
 
     public boolean isDescendant(TodoElement element, TodoElement possibleDescendant) {
-
+        return this.isAncestor(possibleDescendant, element);
     }
 
     public long getId() {

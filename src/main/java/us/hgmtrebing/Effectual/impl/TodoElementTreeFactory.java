@@ -12,6 +12,12 @@ public class TodoElementTreeFactory {
     @Autowired
     private DatabaseService databaseService;
 
+    public TodoElementTreeFactory() { }
+
+    public TodoElementTreeFactory(DatabaseService service) {
+        this.databaseService = service;
+    }
+
     public TodoElementTree createTodoElementTree(String name, String description, User user) {
         if (name == null || description == null || user == null) {
             // TODO - throw exception and/or log message

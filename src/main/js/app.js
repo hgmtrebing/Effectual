@@ -25,6 +25,6 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-    <App/>,
+    <p>testrndr</p>,
     document.getElementById('react')
 )
